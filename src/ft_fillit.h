@@ -6,7 +6,7 @@
 /*   By: wvenita <wvenita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 20:08:23 by wvenita           #+#    #+#             */
-/*   Updated: 2019/05/03 20:10:14 by wvenita          ###   ########.fr       */
+/*   Updated: 2019/05/05 19:04:03 by wvenita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,14 @@ typedef struct		s_map
 int					ft_check_tetr(char *av);
 int					check_connection(char *av);
 void				del_tetr(t_map *map, char letter);
-t_tetr				*ft_read_tetr(const int fd);
-t_tetr				*fill_tetr(char *str, t_tetr *prev, char c);
-int     			*mintetr(char *str);
+int					ft_read_tetr(char *file, t_tetr **tetr);
+int					fill_tetr(char *str, t_tetr **tetr, char c);
+int					*mintetr(char *str);
 int					placetetr(t_map *map, t_tetr *tetr, int n);
 int					ft_solved(t_map *map, t_tetr *tetr, char *alph);
 int					minsquare(int n);
 int					counttetr(t_tetr *tetr);
 int					ft_solve(t_map **map, t_tetr *tetr);
+void				ft_freetetr(t_tetr **tetr);
 
 #endif

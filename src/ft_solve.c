@@ -6,11 +6,13 @@
 /*   By: wvenita <wvenita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 22:07:40 by wvenita           #+#    #+#             */
-/*   Updated: 2019/05/03 20:53:41 by wvenita          ###   ########.fr       */
+/*   Updated: 2019/05/05 18:48:42 by wvenita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
+
+#include <stdio.h>
 
 void	del_tetr(t_map *map, char letter)
 {
@@ -32,10 +34,7 @@ int		placetetr(t_map *map, t_tetr *tetr, int n)
 	check = 0;
 	while (++i < 4)
 	{
-		if (tetr->snake[i] > 3)
-			g = tetr->snake[i] / 4 * map->size + tetr->snake[i] % 4 + n;
-		else
-			g = tetr->snake[i] + n;
+		g = tetr->snake[i] / 4 * map->size + tetr->snake[i] % 4 + n;
 		if (i > 0 && g / map->size != (n + tetr->snake[i] / 4 * map->size) /
 			map->size && ((tetr->snake[i] - tetr->snake[i - 1]) == 1))
 			break ;
@@ -90,10 +89,11 @@ int		ft_solve(t_map **map, t_tetr *tetr)
 	char	alph[26];
 
 	if (!((*map) = (t_map *)malloc(sizeof(map))))
-        return (0);
-    (*map)->count = counttetr(tetr);
-    if (!((*map)->content = malloc((*map)->count * (*map)->count * 4 * 4 * sizeof(char))))
-	    return (0);
+		return (0);
+	(*map)->count = counttetr(tetr);
+	if (!((*map)->content = malloc((*map)->count *
+					(*map)->count * 4 * 4 * sizeof(char))))
+		return (0);
 	(*map)->size = minsquare((*map)->count) - 1;
 	while (++((*map)->size))
 	{
