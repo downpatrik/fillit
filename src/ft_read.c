@@ -6,7 +6,7 @@
 /*   By: wvenita <wvenita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 16:00:04 by dhilll            #+#    #+#             */
-/*   Updated: 2019/05/05 19:02:10 by wvenita          ###   ########.fr       */
+/*   Updated: 2019/05/06 19:35:05 by dhilll           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ int		check_connection(char *av)
 int		ft_read_tetr(char *file, t_tetr **tetr)
 {
 	char	*str;
+	char	*tmp;
 	char	buffer[255];
 	int		fd;
 	size_t	fr;
-	size_t	i;
 
 	if ((fd = open(file, O_RDONLY)) < 0 || read(fd, buffer, 0) < 0)
 		return (0);
@@ -67,18 +67,15 @@ int		ft_read_tetr(char *file, t_tetr **tetr)
 	while ((fr = read(fd, buffer, 256)))
 	{
 		buffer[fr] = '\0';
-		str = ft_strjoin(str, buffer);
+		tmp = ft_strjoin(str, buffer);
+		free(str);
+		str = tmp;
 	}
 	if ((ft_strlen(str) + 1) % 21 != 0 || ft_strlen(str) > 546 || close(fd))
 		return (0);
-	i = 20;
-	while (i < ft_strlen(str))
-	{
-		if (str[i] != '\n')
-			return (1);
-		i = i + 21;
-	}
-	return (fill_tetr(str, tetr, 'A'));
+	fd = fill_tetr(str, tetr, 'A');
+	free(str);
+	return (fd);
 }
 
 int		*mintetr(char *str)
@@ -110,7 +107,7 @@ int		fill_tetr(char *str, t_tetr **tetr, char c)
 	t_tetr	*tmp;
 	int		i;
 
-	if (!(tmp = (t_tetr *)malloc(sizeof(*tmp))))
+	if (!(tmp = (t_tetr *)malloc(sizeof(t_tetr))))
 		return (0);
 	if (!(tmp->line = (char *)malloc(sizeof(char) * 17)))
 		return (0);
@@ -126,7 +123,7 @@ int		fill_tetr(char *str, t_tetr **tetr, char c)
 	tmp->snake = mintetr(tmp->line);
 	tmp->letter = c;
 	*tetr = tmp;
-	if (str[0] == '\n')
+	if (str[0] == '\n' || str[1] == '.' || str[1] == '#')
 		return (fill_tetr(++str, &tmp->next, ++c));
 	else
 		return (!(int)(tmp->next = NULL));

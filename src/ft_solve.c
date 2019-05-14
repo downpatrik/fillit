@@ -88,7 +88,7 @@ int		ft_solve(t_map **map, t_tetr *tetr)
 {
 	char	alph[26];
 
-	if (!((*map) = (t_map *)malloc(sizeof(map))))
+	if (!((*map) = (t_map *)malloc(sizeof(t_map))))
 		return (0);
 	(*map)->count = counttetr(tetr);
 	if (!((*map)->content = malloc((*map)->count *
